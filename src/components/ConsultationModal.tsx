@@ -82,8 +82,10 @@ export default function ConsultationModal({
           &times;
         </button>
 
-        <span className="subtitle-eyebrow">CHAMBERS OF ADVOCATE PRASHANT JHA</span>
-        <h3 className="modal-title">Schedule Legal Consultation</h3>
+        <div className="modal-header-wrap">
+          <span className="subtitle-eyebrow">CHAMBERS OF ADVOCATE PRASHANT JHA</span>
+          <h3 className="modal-title">Schedule Legal Consultation</h3>
+        </div>
         <p className="modal-sub">
           Please provide a brief summary of the matter. We will review facts, applicable jurisdiction and procedural options.
         </p>
