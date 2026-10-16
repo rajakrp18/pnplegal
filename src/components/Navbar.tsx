@@ -14,6 +14,8 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const [activeSection, setActiveSection] = useState<string>("");
+
   useEffect(() => {
     const saved = localStorage.getItem("pnplegal-theme") as "dark" | "light" | null;
     if (saved) {
@@ -23,6 +25,59 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
       document.documentElement.setAttribute("data-theme", "dark");
     }
   }, []);
+
+  // Sync active section on homepage with IntersectionObserver and hash
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
+
+    if (typeof window !== "undefined" && window.location.hash === "#counsel") {
+      setActiveSection("counsel");
+    }
+
+    const counselEl = document.getElementById("counsel");
+    if (!counselEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection("counsel");
+          } else {
+            const rect = counselEl.getBoundingClientRect();
+            // If scrolled above or well below
+            if (rect.top > window.innerHeight * 0.4 || rect.bottom < 0) {
+              setActiveSection("");
+            }
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "-15% 0px -35% 0px",
+        threshold: 0.1,
+      }
+    );
+
+    observer.observe(counselEl);
+
+    const handleHashChange = () => {
+      if (window.location.hash === "#counsel") {
+        setActiveSection("counsel");
+      } else {
+        setActiveSection("");
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, [pathname]);
 
   const toggleTheme = () => {
     const nextTheme = theme === "dark" ? "light" : "dark";
@@ -41,11 +96,27 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
     { label: "Contact", href: "/contact" },
   ];
 
+  const isLinkActive = (href: string) => {
+    if (pathname === "/") {
+      if (href === "/#counsel") {
+        return activeSection === "counsel";
+      }
+      if (href === "/") {
+        return activeSection !== "counsel";
+      }
+      return false;
+    }
+    if (href === "/" || href.startsWith("/#")) {
+      return false;
+    }
+    return pathname === href || pathname?.startsWith(href + "/");
+  };
+
   return (
     <>
       <header className="nav-wrapper">
         <nav className="navbar" aria-label="Main Navigation">
-          <Link href="/" className="nav-brand">
+          <Link href="/" className="nav-brand" onClick={() => setActiveSection("")}>
             <Image
               src="/pnplegallogo.png"
               alt="P&P Legal Consultants Logo"
@@ -65,18 +136,20 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
           {/* Desktop Tabbed Navbar Links */}
           <div className="nav-links nav-tabs-container">
             {navLinks.map((link) => {
-              const isActive =
-                link.href === "/"
-                  ? pathname === "/"
-                  : link.href.startsWith("/#")
-                  ? pathname === "/"
-                  : pathname?.startsWith(link.href);
+              const active = isLinkActive(link.href);
 
               return (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`nav-link ${isActive ? "active-tab" : ""}`}
+                  className={`nav-link ${active ? "active-tab" : ""}`}
+                  onClick={() => {
+                    if (link.href === "/#counsel") {
+                      setActiveSection("counsel");
+                    } else if (link.href === "/") {
+                      setActiveSection("");
+                    }
+                  }}
                 >
                   {link.label}
                 </Link>
@@ -85,7 +158,7 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
           </div>
 
           <div className="nav-actions">
-            {/* Theme Toggle */}
+            {/* Premium Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="btn-theme-toggle"
@@ -93,7 +166,47 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
               aria-label={`Switch to ${theme === "dark" ? "Light" : "Dark"} theme`}
               title={`Switch to ${theme === "dark" ? "Light" : "Dark"} theme`}
             >
-              {theme === "dark" ? "☀️" : "🌙"}
+              <span className="theme-toggle-inner">
+                {theme === "dark" ? (
+                  /* Elegant Golden Sun vector */
+                  <svg
+                    className="theme-svg theme-svg-sun"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <circle cx="12" cy="12" r="4.25" />
+                    <path d="M12 2.5v2.2" />
+                    <path d="M12 19.3v2.2" />
+                    <path d="M4.93 4.93l1.55 1.55" />
+                    <path d="M17.52 17.52l1.55 1.55" />
+                    <path d="M2.5 12h2.2" />
+                    <path d="M19.3 12h2.2" />
+                    <path d="M4.93 19.07l1.55-1.55" />
+                    <path d="M17.52 6.48l1.55-1.55" />
+                  </svg>
+                ) : (
+                  /* Royal Slender Crescent Moon & Star vector */
+                  <svg
+                    className="theme-svg theme-svg-moon"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M20.5 13.05A9 9 0 1 1 10.95 3.5 7.2 7.2 0 0 0 20.5 13.05z" />
+                    <path d="M18.5 4.5v3" strokeWidth="1.4" />
+                    <path d="M17 6h3" strokeWidth="1.4" />
+                  </svg>
+                )}
+              </span>
             </button>
 
             {/* Book Consultation Button */}
@@ -153,19 +266,21 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
 
         <div className="mobile-links-list">
           {navLinks.map((link) => {
-            const isActive =
-              link.href === "/"
-                ? pathname === "/"
-                : link.href.startsWith("/#")
-                ? pathname === "/"
-                : pathname?.startsWith(link.href);
+            const active = isLinkActive(link.href);
 
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`nav-link mobile-nav-link ${isActive ? "active-tab" : ""}`}
-                onClick={() => setMobileMenuOpen(false)}
+                className={`nav-link mobile-nav-link ${active ? "active-tab" : ""}`}
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  if (link.href === "/#counsel") {
+                    setActiveSection("counsel");
+                  } else if (link.href === "/") {
+                    setActiveSection("");
+                  }
+                }}
               >
                 {link.label}
               </Link>

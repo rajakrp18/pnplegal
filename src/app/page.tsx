@@ -227,31 +227,100 @@ export default function HomePage() {
       </section>
 
       {/* ── 03. Credibility Ribbon ── */}
-      <section className="credibility-ribbon" aria-label="Jurisdictions & Domains">
+      <section className="credibility-ribbon" aria-label="Chambers Jurisdictions & Credentials">
+        <div className="ribbon-ambient-glow" aria-hidden="true" />
         <div className="container ribbon-container">
-          <div className="ribbon-item">
-            <span className="ribbon-icon">&#9878;</span>
-            <span>Supreme Court of India</span>
+          {/* Item 1 */}
+          <div className="ribbon-badge">
+            <div className="ribbon-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3L2 8h20L12 3z" />
+                <path d="M5 8v9M9 8v9M15 8v9M19 8v9" />
+                <path d="M2 17h20M1 21h22" />
+              </svg>
+            </div>
+            <div className="ribbon-badge-content">
+              <span className="ribbon-badge-category">APEX JURISDICTION</span>
+              <span className="ribbon-badge-title">Supreme Court of India</span>
+            </div>
           </div>
-          <div className="ribbon-sep" />
-          <div className="ribbon-item">
-            <span className="ribbon-icon">&#9878;</span>
-            <span>High Court of Delhi</span>
+
+          <div className="ribbon-divider" aria-hidden="true">
+            <span className="ribbon-diamond" />
           </div>
-          <div className="ribbon-sep" />
-          <div className="ribbon-item">
-            <span className="ribbon-icon">&#9874;</span>
-            <span>Corporate &amp; Commercial</span>
+
+          {/* Item 2 */}
+          <div className="ribbon-badge">
+            <div className="ribbon-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3v17M8 21h8M3 7h18" />
+                <path d="M6 7l-3 7a3 3 0 0 0 6 0L6 7z" />
+                <path d="M18 7l-3 7a3 3 0 0 0 6 0L18 7z" />
+              </svg>
+            </div>
+            <div className="ribbon-badge-content">
+              <span className="ribbon-badge-category">HIGH COURT OF RECORD</span>
+              <span className="ribbon-badge-title">High Court of Delhi</span>
+            </div>
           </div>
-          <div className="ribbon-sep" />
-          <div className="ribbon-item">
-            <span className="ribbon-icon">&#9878;</span>
-            <span>Civil &amp; Criminal Litigation</span>
+
+          <div className="ribbon-divider" aria-hidden="true">
+            <span className="ribbon-diamond" />
           </div>
-          <div className="ribbon-sep" />
-          <div className="ribbon-item">
-            <span className="ribbon-icon">&#128220;</span>
-            <span>TeachMeLegal Founder</span>
+
+          {/* Item 3 */}
+          <div className="ribbon-badge">
+            <div className="ribbon-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                <circle cx="12" cy="14" r="1.5" />
+              </svg>
+            </div>
+            <div className="ribbon-badge-content">
+              <span className="ribbon-badge-category">STRATEGIC COUNSEL</span>
+              <span className="ribbon-badge-title">Corporate &amp; Commercial</span>
+            </div>
+          </div>
+
+          <div className="ribbon-divider" aria-hidden="true">
+            <span className="ribbon-diamond" />
+          </div>
+
+          {/* Item 4 */}
+          <div className="ribbon-badge">
+            <div className="ribbon-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 13l-7.5 7.5a2.12 2.12 0 0 1-3-3L11 10" />
+                <path d="M16 8l3-3a1.5 1.5 0 0 1 2.12 2.12L18.12 10.12" />
+                <path d="M8.5 6.5l9 9" />
+                <path d="M6 9l9 9" />
+                <path d="M2 21h6" />
+              </svg>
+            </div>
+            <div className="ribbon-badge-content">
+              <span className="ribbon-badge-category">TRIAL &amp; APPELLATE</span>
+              <span className="ribbon-badge-title">Civil &amp; Criminal Litigation</span>
+            </div>
+          </div>
+
+          <div className="ribbon-divider" aria-hidden="true">
+            <span className="ribbon-diamond" />
+          </div>
+
+          {/* Item 5 */}
+          <div className="ribbon-badge">
+            <div className="ribbon-badge-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+                <path d="M8 7h8M8 11h6" />
+              </svg>
+            </div>
+            <div className="ribbon-badge-content">
+              <span className="ribbon-badge-category">LEGAL SCHOLARSHIP</span>
+              <span className="ribbon-badge-title">TeachMeLegal Founder</span>
+            </div>
           </div>
         </div>
       </section>
