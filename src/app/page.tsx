@@ -1,8 +1,11 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+import ConsultationModal from "@/components/ConsultationModal";
 
 interface PracticeArea {
   id: string;
@@ -15,72 +18,58 @@ interface PracticeArea {
 
 const practiceAreas: PracticeArea[] = [
   {
-    id: "litigation",
+    id: "cyber",
     num: "01",
-    title: "Litigation",
-    desc: "Strategic representation from preparation to final adjudication across District Courts, Delhi High Court, and the Supreme Court of India.",
-    img: "/practice-litigation.jpg",
-    badge: "Supreme Court & High Courts",
+    title: "Cyber Law & Cybercrime",
+    desc: "Cyber fraud, online financial scams, bank account freezes, debit freezes, lien disputes, UPI fraud, and NCRP procedural remedies.",
+    img: "/practice-cyber.jpg",
+    badge: "IT Act & Cybercrime",
   },
   {
     id: "corporate",
     num: "02",
-    title: "Corporate & Commercial",
-    desc: "Counsel for complex business transactions, regulatory compliance, commercial disputes, and statutory governance.",
+    title: "Corporate & Commercial Law",
+    desc: "Company advisory, commercial contracts, bespoke NDAs, software development agreements, compliance governance, and contract dispute resolution.",
     img: "/practice-corporate.jpg",
-    badge: "Advisory & Structuring",
+    badge: "Contracts & Transactions",
+  },
+  {
+    id: "criminal",
+    num: "03",
+    title: "Criminal Law & Defence",
+    desc: "Criminal complaints and trial defence, regular and anticipatory bail, cheating, financial fraud, forgery, and investigative representations.",
+    img: "/practice-litigation.jpg",
+    badge: "Trial & Bail Advocacy",
+  },
+  {
+    id: "civil",
+    num: "04",
+    title: "Civil Litigation",
+    desc: "Property and possession disputes, money recovery suits, temporary and permanent injunctions, declaration suits, and landlord–tenant matters.",
+    img: "/practice-advisory.jpg",
+    badge: "Property & Recovery",
+  },
+  {
+    id: "pmla",
+    num: "05",
+    title: "PMLA & Financial Crime",
+    desc: "PMLA research, proceedings involving the Enforcement Directorate (ED), attachment and confiscation matters, and white-collar crime defense.",
+    img: "/supreme.jpg",
+    badge: "ED & White-Collar",
   },
   {
     id: "dispute",
-    num: "03",
-    title: "Dispute Resolution",
-    desc: "Arbitration, commercial mediation, high-stakes negotiation, and pre-litigation risk mitigation.",
+    num: "06",
+    title: "Dispute Resolution & Other Legal Services",
+    desc: "Negotiation, structured mediation, commercial arbitration proceedings, banking lien disputes, consumer disputes, and traffic challan matters.",
     img: "/practice-dispute.jpg",
     badge: "Arbitration & Mediation",
-  },
-  {
-    id: "advisory",
-    num: "04",
-    title: "Legal Advisory",
-    desc: "Practical, research-driven counsel for informed executive decisions, statutory interpretation, and ongoing compliance.",
-    img: "/practice-advisory.jpg",
-    badge: "Statutory & Governance",
-  },
-  {
-    id: "cyber",
-    num: "05",
-    title: "Cyber Cases & Digital Forensics",
-    desc: "Strategic defense and remedies for financial cyber fraud, IT Act offenses, unauthorized data breaches, digital defamation, and electronic evidence forensics.",
-    img: "/practice-cyber.jpg",
-    badge: "IT Act & Cyber Crime",
   },
 ];
 
 export default function HomePage() {
-  const [theme, setTheme] = useState<"dark" | "light">("dark");
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPractice, setSelectedPractice] = useState("Litigation");
-
-  // Sync theme with localStorage and document data-theme
-  useEffect(() => {
-    const saved = localStorage.getItem("pnplegal-theme") as "dark" | "light" | null;
-    if (saved) {
-      document.documentElement.setAttribute("data-theme", saved);
-      requestAnimationFrame(() => {
-        setTheme(saved);
-      });
-    } else {
-      document.documentElement.setAttribute("data-theme", "dark");
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const nextTheme = theme === "dark" ? "light" : "dark";
-    setTheme(nextTheme);
-    document.documentElement.setAttribute("data-theme", nextTheme);
-    localStorage.setItem("pnplegal-theme", nextTheme);
-  };
+  const [selectedPractice, setSelectedPractice] = useState("Cyber Law & Cybercrime");
 
   // Form states
   const [formData, setFormData] = useState({
@@ -148,132 +137,7 @@ export default function HomePage() {
   return (
     <>
       {/* ── 01. Floating Navigation ── */}
-      <header className="nav-wrapper">
-        <nav className="navbar" aria-label="Main Navigation">
-          <Link href="/" className="nav-brand">
-            <Image
-              src="/pnplegallogo.png"
-              alt="P&P Legal Consultants Logo"
-              width={60}
-              height={60}
-              style={{ objectFit: "contain", height: "46px", width: "auto" }}
-              priority
-            />
-            <div className="nav-brand-text">
-              <span className="nav-brand-title">
-                P&P <span>LEGAL</span>
-              </span>
-              <span className="nav-brand-sub">CONSULTANTS</span>
-            </div>
-          </Link>
-
-          {/* Cleaned navbar links — Removed redundant Home heading */}
-          <div className="nav-links">
-            <Link href="#about" className="nav-link">About</Link>
-            <Link href="#practice" className="nav-link">Practice Areas</Link>
-            <Link href="#counsel" className="nav-link">The Counsel</Link>
-            <Link href="#principle" className="nav-link">Principle</Link>
-            <Link href="#contact" className="nav-link">Contact</Link>
-          </div>
-
-          <div className="nav-actions">
-            {/* Theme Toggle (Dark / Light) */}
-            <button
-              onClick={toggleTheme}
-              className="btn-theme-toggle"
-              type="button"
-              aria-label={`Switch to ${theme === "dark" ? "Light" : "Dark"} theme`}
-              title={`Switch to ${theme === "dark" ? "Light" : "Dark"} theme`}
-            >
-              {theme === "dark" ? "☀️" : "🌙"}
-            </button>
-
-            <button
-              onClick={() => openConsultation()}
-              className="btn-nav"
-              type="button"
-            >
-              Book Consultation &rarr;
-            </button>
-
-            <button
-              className="nav-toggle"
-              onClick={() => setMobileMenuOpen(true)}
-              aria-label="Open navigation menu"
-            >
-              &#9776;
-            </button>
-          </div>
-        </nav>
-      </header>
-
-      {/* Mobile Drawer */}
-      <div className={`mobile-drawer ${mobileMenuOpen ? "open" : ""}`}>
-        <button
-          className="mobile-close-btn"
-          onClick={() => setMobileMenuOpen(false)}
-          aria-label="Close navigation"
-        >
-          &times;
-        </button>
-        <Link
-          href="#about"
-          className="nav-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          About
-        </Link>
-        <Link
-          href="#practice"
-          className="nav-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Practice Areas
-        </Link>
-        <Link
-          href="#counsel"
-          className="nav-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          The Counsel
-        </Link>
-        <Link
-          href="#principle"
-          className="nav-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Principle
-        </Link>
-        <Link
-          href="#contact"
-          className="nav-link"
-          onClick={() => setMobileMenuOpen(false)}
-        >
-          Contact
-        </Link>
-
-        <div style={{ display: "flex", gap: "1rem", alignItems: "center", marginTop: "1rem" }}>
-          <button
-            onClick={toggleTheme}
-            className="btn-theme-toggle"
-            type="button"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? "☀️ Light" : "🌙 Dark"}
-          </button>
-        </div>
-
-        <button
-          onClick={() => {
-            setMobileMenuOpen(false);
-            openConsultation();
-          }}
-          className="btn-gold"
-          style={{ marginTop: "1.5rem" }}
-        >
-          Book Consultation &rarr;
-        </button>
-      </div>
+      <Navbar onOpenConsultation={(practice) => openConsultation(practice)} />
 
       {/* ── 02. HERO SECTION ── */}
       <section className="hero-section" id="hero">
@@ -523,6 +387,12 @@ export default function HomePage() {
               </div>
             ))}
           </div>
+
+          <div style={{ textAlign: "center", marginTop: "3rem" }}>
+            <Link href="/practice-areas" className="btn-gold" style={{ display: "inline-flex" }}>
+              Explore All 10 Practice Areas In Detail &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -563,12 +433,12 @@ export default function HomePage() {
                     sizes="(max-width: 768px) 100vw, 440px"
                     className="counsel-photo"
                   />
-                  <div className="counsel-quote-ribbon">
-                    <p className="counsel-quote-text">
-                      &ldquo;Committed to the rule of law, structured litigation, and just outcomes.&rdquo;
-                    </p>
-                    <span className="counsel-sig-author">— Prashant Jha</span>
-                  </div>
+                </div>
+                <div className="counsel-quote-ribbon">
+                  <p className="counsel-quote-text">
+                    &ldquo;Committed to the rule of law, structured litigation, and just outcomes.&rdquo;
+                  </p>
+                  <span className="counsel-sig-author">— Prashant Jha</span>
                 </div>
               </div>
             </div>
@@ -644,7 +514,49 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 09. Contact / Consultation Section ── */}
+      {/* ── 09. Legal Insights Preview Section ── */}
+      <section className="legal-insights-home-section" style={{ padding: "6rem 0", background: "var(--bg-obsidian)" }}>
+        <div className="container">
+          <div className="section-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1.5rem", marginBottom: "3rem" }}>
+            <div>
+              <span className="subtitle-eyebrow">LEGAL INSIGHTS &amp; ANALYSIS</span>
+              <h2 className="section-heading">Knowledge from Practice</h2>
+              <p style={{ color: "var(--text-muted)", maxWidth: "560px", fontSize: "1rem", marginTop: "0.5rem" }}>
+                Informative articles on cybercrime, banking freezes, commercial contracts, bail jurisprudence, and Indian civil procedure.
+              </p>
+            </div>
+            <Link href="/blog" className="btn-ghost">
+              View All Articles &rarr;
+            </Link>
+          </div>
+
+          <div className="domains-cards-grid">
+            <div className="domain-card">
+              <div className="domain-tag">CYBER LAW &bull; BANKING DISPUTES</div>
+              <h3 className="domain-title">Bank Account Freeze vs. Lien: Procedural Remedies</h3>
+              <p className="domain-desc">
+                An analysis of Section 102 CrPC / Section 106 BNSS versus banker&apos;s lien rights under Section 171 Indian Contract Act, and legal steps to restore debit operations.
+              </p>
+              <Link href="/blog#freeze-vs-lien" className="domain-link">
+                Read Statutory Analysis &rarr;
+              </Link>
+            </div>
+
+            <div className="domain-card">
+              <div className="domain-tag">COMMERCIAL CONTRACTS</div>
+              <h3 className="domain-title">What Should a Business NDA Strictly Contain?</h3>
+              <p className="domain-desc">
+                Critical drafting clauses for bilateral non-disclosure agreements, IP safeguards, trade secret protection, and court injunction clauses.
+              </p>
+              <Link href="/blog#business-nda-clauses" className="domain-link">
+                Read Statutory Analysis &rarr;
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 10. Contact / Consultation Section ── */}
       <section className="contact-section" id="contact">
         <div className="container">
           <div className="contact-layout-grid">
@@ -659,10 +571,28 @@ export default function HomePage() {
 
               <div className="contact-card-box">
                 <div className="contact-channel">
-                  <span className="channel-icon">&#128205;</span>
+                  <span className="channel-icon">&#9906;</span>
                   <div className="channel-details">
-                    <h4>Chamber Jurisdiction</h4>
-                    <p>Delhi High Court &amp; Supreme Court of India, New Delhi</p>
+                    <h4>Chambers Office Address</h4>
+                    <p style={{ color: "var(--ivory)", fontSize: "0.95rem", lineHeight: 1.5 }}>
+                      D-20, Nawada Housing Complex, Vipin Garden, Dwarka Mor, New Delhi, Delhi, India.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="contact-channel">
+                  <span className="channel-icon">&#9742;</span>
+                  <div className="channel-details">
+                    <h4>Direct Chambers Phone</h4>
+                    <a href="tel:+918409949411" style={{ fontSize: "1.05rem", fontWeight: 700 }}>+91-8409949411</a>
+                  </div>
+                </div>
+
+                <div className="contact-channel">
+                  <span className="channel-icon">&#9742;</span>
+                  <div className="channel-details">
+                    <h4>General Enquiries</h4>
+                    <a href="tel:+919472568264">+91-9472568264</a>
                   </div>
                 </div>
 
@@ -671,15 +601,6 @@ export default function HomePage() {
                   <div className="channel-details">
                     <h4>Electronic Mail</h4>
                     <a href="mailto:info@pnplegalconsultants.com">info@pnplegalconsultants.com</a>
-                  </div>
-                </div>
-
-                <div className="contact-channel">
-                  <span className="channel-icon">&#9742;</span>
-                  <div className="channel-details">
-                    <h4>Chambers Contact</h4>
-                    <a href="tel:+919876543210">+91 98765 43210</a> &nbsp;|&nbsp;{" "}
-                    <a href="tel:+919472568264">+91 94725 68264</a>
                   </div>
                 </div>
               </div>
@@ -839,260 +760,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── 10. Consultation Modal Popup ── */}
-      {modalOpen && (
-        <div
-          className="modal-backdrop"
-          onClick={() => setModalOpen(false)}
-          role="dialog"
-          aria-modal="true"
-        >
-          <div
-            className="modal-content-panel"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="modal-close-icon"
-              onClick={() => setModalOpen(false)}
-              aria-label="Close modal"
-            >
-              &times;
-            </button>
+      <Footer />
 
-            <span className="subtitle-eyebrow">CONFIDENTIAL INQUIRY</span>
-            <h3 className="form-header-title">Book a Consultation</h3>
-            <p className="form-header-sub">
-              Regarding: <strong style={{ color: "var(--champagne)" }}>{selectedPractice}</strong>
-            </p>
-
-            {submissionSuccess ? (
-              <div className="form-success-box">
-                <h4 style={{ color: "var(--champagne-light)", fontSize: "1.3rem" }}>
-                  Inquiry Recorded
-                </h4>
-                <p style={{ color: "var(--ivory)", margin: "0.75rem 0" }}>
-                  Your matter has been prioritized under Reference ID:
-                </p>
-                <div className="success-badge-code">{submissionSuccess}</div>
-                <button
-                  onClick={() => {
-                    setSubmissionSuccess(null);
-                    setModalOpen(false);
-                  }}
-                  className="btn-gold"
-                >
-                  Close Window
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="legal-form">
-                {errorMessage && (
-                  <div
-                    style={{
-                      padding: "0.75rem",
-                      background: "rgba(239, 68, 68, 0.15)",
-                      border: "1px solid rgba(239, 68, 68, 0.4)",
-                      borderRadius: "6px",
-                      color: "#FCA5A5",
-                      fontSize: "0.85rem",
-                    }}
-                  >
-                    {errorMessage}
-                  </div>
-                )}
-
-                <div className="form-field-wrap">
-                  <label className="field-label" htmlFor="modalFullName">
-                    Full Name <span>*</span>
-                  </label>
-                  <input
-                    id="modalFullName"
-                    type="text"
-                    name="fullName"
-                    required
-                    value={formData.fullName}
-                    onChange={handleInputChange}
-                    placeholder="Your Full Name"
-                    className="form-input"
-                  />
-                </div>
-
-                <div className="form-row-2col">
-                  <div className="form-field-wrap">
-                    <label className="field-label" htmlFor="modalEmail">
-                      Email Address <span>*</span>
-                    </label>
-                    <input
-                      id="modalEmail"
-                      type="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      placeholder="you@domain.com"
-                      className="form-input"
-                    />
-                  </div>
-
-                  <div className="form-field-wrap">
-                    <label className="field-label" htmlFor="modalPhone">
-                      Phone Number
-                    </label>
-                    <input
-                      id="modalPhone"
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      placeholder="+91 XXXXX XXXXX"
-                      className="form-input"
-                    />
-                  </div>
-                </div>
-
-                <div className="form-field-wrap">
-                  <label className="field-label" htmlFor="modalPractice">
-                    Selected Practice Area <span>*</span>
-                  </label>
-                  <select
-                    id="modalPractice"
-                    name="practiceArea"
-                    value={formData.practiceArea}
-                    onChange={handleInputChange}
-                    className="form-select"
-                  >
-                    <option value="Litigation">Litigation (District, High Court &amp; Supreme Court)</option>
-                    <option value="Corporate & Commercial">Corporate &amp; Commercial</option>
-                    <option value="Dispute Resolution">Dispute Resolution &amp; Arbitration</option>
-                    <option value="Legal Advisory">Legal Advisory &amp; Compliance</option>
-                    <option value="Cyber Cases & Digital Forensics">Cyber Cases &amp; Digital Forensics</option>
-                    <option value="Supreme Court SLP">Supreme Court SLP / Writ</option>
-                  </select>
-                </div>
-
-                <div className="form-field-wrap">
-                  <label className="field-label" htmlFor="modalMessage">
-                    Brief Matter Summary <span>*</span>
-                  </label>
-                  <textarea
-                    id="modalMessage"
-                    name="message"
-                    rows={3}
-                    required
-                    value={formData.message}
-                    onChange={handleInputChange}
-                    placeholder="Briefly state your matter..."
-                    className="form-textarea"
-                  />
-                </div>
-
-                <div className="form-disclaimer">
-                  All communications remain subject to attorney-client privilege upon formal engagement.
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="btn-gold"
-                  style={{ width: "100%", marginTop: "0.5rem" }}
-                >
-                  {isSubmitting ? "Transmitting..." : "Send Confidential Request \u2192"}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* ── 11. Authority Footer ── */}
-      <footer className="footer-wrap">
-        <div className="container">
-          <div className="footer-top-grid">
-            {/* Brand Col */}
-            <div className="footer-brand-col">
-              <div className="nav-brand">
-                <Image
-                  src="/pnplegallogo.png"
-                  alt="P&P Legal Consultants"
-                  width={60}
-                  height={60}
-                  style={{ objectFit: "contain", height: "48px", width: "auto" }}
-                />
-                <div className="nav-brand-text">
-                  <span className="nav-brand-title">
-                    P&P <span>LEGAL</span>
-                  </span>
-                  <span className="nav-brand-sub">CONSULTANTS</span>
-                </div>
-              </div>
-              <p className="footer-tagline">
-                Strategic counsel.<br />
-                Serious representation.
-              </p>
-            </div>
-
-            {/* Practice Areas */}
-            <div>
-              <h4 className="footer-col-title">Practice Areas</h4>
-              <ul className="footer-links-list">
-                <li><Link href="#practice" onClick={() => openConsultation("Litigation")}>Litigation &amp; SLP</Link></li>
-                <li><Link href="#practice" onClick={() => openConsultation("Corporate & Commercial")}>Corporate Advisory</Link></li>
-                <li><Link href="#practice" onClick={() => openConsultation("Dispute Resolution")}>Dispute Resolution</Link></li>
-                <li><Link href="#practice" onClick={() => openConsultation("Legal Advisory")}>Regulatory Governance</Link></li>
-                <li><Link href="#practice" onClick={() => openConsultation("Cyber Cases & Digital Forensics")}>Cyber &amp; IT Act</Link></li>
-              </ul>
-            </div>
-
-            {/* Navigation */}
-            <div>
-              <h4 className="footer-col-title">Navigation</h4>
-              <ul className="footer-links-list">
-                <li><Link href="#about">About Advocate Jha</Link></li>
-                <li><Link href="#practice">Areas of Practice</Link></li>
-                <li><Link href="#counsel">The Counsel</Link></li>
-                <li><Link href="#principle">Constitutional Principle</Link></li>
-                <li><Link href="#contact">Contact Chambers</Link></li>
-              </ul>
-            </div>
-
-            {/* Contact Details */}
-            <div>
-              <h4 className="footer-col-title">Chambers Contact</h4>
-              <ul className="footer-links-list">
-                <li style={{ color: "var(--ivory)" }}>Delhi, India</li>
-                <li>
-                  <a href="mailto:info@pnplegalconsultants.com">info@pnplegalconsultants.com</a>
-                </li>
-                <li>
-                  <a href="tel:+919876543210">+91 98765 43210</a>
-                </li>
-                <li>
-                  <a href="tel:+919472568264">+91 94725 68264</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Bar Council of India Mandatory Disclaimer */}
-          <div className="footer-bci-disclaimer">
-            <p className="bci-text">
-              <strong>Bar Council of India Disclaimer:</strong> As per the rules of the Bar Council of
-              India, advocates and legal advisors are not permitted to solicit work or advertise in any
-              manner. By accessing this website (pnplegalconsultants.com), the user acknowledges that the
-              information provided is solely for general informational purposes and does not create an
-              advocate-client relationship. The user wishes to gain more information about Advocate Prashant Jha
-              and P&amp;P Legal Consultants of their own volition. None of the contents herein should be construed as legal
-              advice or formal opinion.
-            </p>
-          </div>
-
-          <div className="footer-bottom-bar">
-            <span>&copy; {new Date().getFullYear()} P&amp;P Legal Consultants &bull; Adv. Prashant Jha. All rights reserved.</span>
-            <span>Advocates &amp; Legal Advisors &mdash; Supreme Court of India</span>
-            <span>New Delhi, India</span>
-          </div>
-        </div>
-      </footer>
+      <ConsultationModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        defaultPractice={selectedPractice}
+      />
     </>
   );
 }
