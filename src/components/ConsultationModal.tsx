@@ -114,35 +114,19 @@ export default function ConsultationModal({
               </div>
             )}
 
-            <div className="form-field-wrap">
-              <label className="field-label" htmlFor="modalFullName">
-                Full Legal Name <span>*</span>
-              </label>
-              <input
-                id="modalFullName"
-                type="text"
-                name="fullName"
-                required
-                value={formData.fullName}
-                onChange={handleInputChange}
-                placeholder="Your Full Name"
-                className="form-input"
-              />
-            </div>
-
             <div className="form-row-2col">
               <div className="form-field-wrap">
-                <label className="field-label" htmlFor="modalEmail">
-                  Email Address <span>*</span>
+                <label className="field-label" htmlFor="modalFullName">
+                  Full Legal Name <span>*</span>
                 </label>
                 <input
-                  id="modalEmail"
-                  type="email"
-                  name="email"
+                  id="modalFullName"
+                  type="text"
+                  name="fullName"
                   required
-                  value={formData.email}
+                  value={formData.fullName}
                   onChange={handleInputChange}
-                  placeholder="you@domain.com"
+                  placeholder="Your Full Name"
                   className="form-input"
                 />
               </div>
@@ -164,29 +148,47 @@ export default function ConsultationModal({
               </div>
             </div>
 
-            <div className="form-field-wrap">
-              <label className="field-label" htmlFor="modalPractice">
-                Relevant Legal Category <span>*</span>
-              </label>
-              <select
-                id="modalPractice"
-                name="practiceArea"
-                value={formData.practiceArea}
-                onChange={handleInputChange}
-                className="form-select"
-              >
-                <option value="Cyber Law & Cybercrime">Cyber Law &amp; Cybercrime (Fraud, Account Freeze, UPI)</option>
-                <option value="Corporate & Commercial Law">Corporate &amp; Commercial Law (Contracts, NDAs)</option>
-                <option value="Criminal Law & Bail">Criminal Law &amp; Bail-Related Proceedings</option>
-                <option value="Civil Litigation">Civil Litigation (Property, Recovery, Injunctions)</option>
-                <option value="PMLA & Financial Crime">PMLA &amp; Financial Crime (ED, Attachment)</option>
-                <option value="Dispute Resolution & Arbitration">Dispute Resolution &amp; Arbitration</option>
-                <option value="Banking Disputes">Banking Disputes &amp; Account Lien</option>
-                <option value="Consumer & Service Disputes">Consumer &amp; Service Disputes</option>
-                <option value="Employment & Labour Law">Employment &amp; Labour Law</option>
-                <option value="Traffic Challan Matters">Traffic Challan &amp; Transport Matters</option>
-                <option value="Supreme Court SLP / Writ">Supreme Court SLP / Writ Petition</option>
-              </select>
+            <div className="form-row-2col">
+              <div className="form-field-wrap">
+                <label className="field-label" htmlFor="modalEmail">
+                  Email Address <span>*</span>
+                </label>
+                <input
+                  id="modalEmail"
+                  type="email"
+                  name="email"
+                  required
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  placeholder="you@domain.com"
+                  className="form-input"
+                />
+              </div>
+
+              <div className="form-field-wrap">
+                <label className="field-label" htmlFor="modalPractice">
+                  Relevant Legal Category <span>*</span>
+                </label>
+                <select
+                  id="modalPractice"
+                  name="practiceArea"
+                  value={formData.practiceArea}
+                  onChange={handleInputChange}
+                  className="form-select"
+                >
+                  <option value="Cyber Law & Cybercrime">Cyber Law &amp; Cybercrime (Fraud, Account Freeze, UPI)</option>
+                  <option value="Corporate & Commercial Law">Corporate &amp; Commercial Law (Contracts, NDAs)</option>
+                  <option value="Criminal Law & Bail">Criminal Law &amp; Bail-Related Proceedings</option>
+                  <option value="Civil Litigation">Civil Litigation (Property, Recovery, Injunctions)</option>
+                  <option value="PMLA & Financial Crime">PMLA &amp; Financial Crime (ED, Attachment)</option>
+                  <option value="Dispute Resolution & Arbitration">Dispute Resolution &amp; Arbitration</option>
+                  <option value="Banking Disputes">Banking Disputes &amp; Account Lien</option>
+                  <option value="Consumer & Service Disputes">Consumer &amp; Service Disputes</option>
+                  <option value="Employment & Labour Law">Employment &amp; Labour Law</option>
+                  <option value="Traffic Challan Matters">Traffic Challan &amp; Transport Matters</option>
+                  <option value="Supreme Court SLP / Writ">Supreme Court SLP / Writ Petition</option>
+                </select>
+              </div>
             </div>
 
             <div className="form-field-wrap">
@@ -196,7 +198,7 @@ export default function ConsultationModal({
               <textarea
                 id="modalMessage"
                 name="message"
-                rows={3}
+                rows={2}
                 required
                 value={formData.message}
                 onChange={handleInputChange}
@@ -213,7 +215,7 @@ export default function ConsultationModal({
               type="submit"
               disabled={isSubmitting}
               className="btn-gold"
-              style={{ width: "100%", marginTop: "0.5rem" }}
+              style={{ width: "100%", marginTop: "0.25rem" }}
             >
               {isSubmitting ? "Transmitting..." : "Send Confidential Request \u2192"}
             </button>
