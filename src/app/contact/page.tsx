@@ -151,6 +151,10 @@ export default function ContactPage() {
                   </div>
                 </div>
               </div>
+
+              <div className="chambers-hours-note">
+                <strong>Chambers Consultation Hours:</strong> Monday &ndash; Saturday, 10:00 AM &ndash; 7:30 PM IST (Prior appointment requested).
+              </div>
             </div>
 
             {/* Right Consultation Form */}

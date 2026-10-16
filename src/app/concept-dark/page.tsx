@@ -20,7 +20,7 @@ export default function ConceptDark() {
 
       <main className="dark-hero">
         <div className="dark-glow"></div>
-        
+
         <div className="dark-hero-content">
           <span className="dark-badge">Top Rated Law Firm</span>
           <h1 className="dark-hero-title">

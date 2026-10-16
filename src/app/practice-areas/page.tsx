@@ -143,7 +143,7 @@ const detailedPracticeAreas: PracticeDetail[] = [
       "Assistance with documentation for unfreezing legitimate merchant accounts",
       "Statutory court remedies under writ jurisdiction for arbitrary restrictions",
     ],
-    img: "/practice-corporate.jpg",
+    img: "/practice-banking.jpg",
   },
   {
     id: "consumer",
@@ -161,7 +161,7 @@ const detailedPracticeAreas: PracticeDetail[] = [
       "Legal notices and statutory pre-action protocols",
       "Proceedings before District, State, and National Consumer Commissions (NCDRC)",
     ],
-    img: "/practice-advisory.jpg",
+    img: "/practice-consumer.jpg",
   },
   {
     id: "employment",
@@ -179,7 +179,7 @@ const detailedPracticeAreas: PracticeDetail[] = [
       "Representation before labour commissioners and industrial tribunals",
       "Advisory on workplace compliance, POSH guidelines, and separation terms",
     ],
-    img: "/practice-litigation.jpg",
+    img: "/practice-employment.jpg",
   },
   {
     id: "traffic",
@@ -197,7 +197,7 @@ const detailedPracticeAreas: PracticeDetail[] = [
       "Disputes involving commercial fleet owners, transport permits, and impounded vehicles",
       "Applicable legal remedies before competent transport authorities",
     ],
-    img: "/practice-dispute.jpg",
+    img: "/practice-traffic.jpg",
   },
 ];
 
