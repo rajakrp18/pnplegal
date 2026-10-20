@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -43,6 +44,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className="min-h-screen bg-[#080B10] text-[#F0E8D9] font-sans antialiased selection:bg-[#B99B62] selection:text-[#080B10]">
         {children}
+        <Analytics />
       </body>
     </html>
   );
