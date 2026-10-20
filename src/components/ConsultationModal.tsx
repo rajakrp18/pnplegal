@@ -142,7 +142,7 @@ export default function ConsultationModal({
                   required
                   value={formData.phone}
                   onChange={handleInputChange}
-                  placeholder="+91-8409949411"
+                  placeholder="+91 98765 XXXXX"
                   className="form-input"
                 />
               </div>

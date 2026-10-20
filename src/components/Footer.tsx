@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -12,13 +11,15 @@ export default function Footer() {
           {/* Brand Col */}
           <div className="footer-brand-col">
             <Link href="/" className="footer-brand-row">
-              <Image
-                src="/pnplegallogo.png"
-                alt="P&P Legal Consultants"
-                width={50}
-                height={50}
-                style={{ objectFit: "contain", height: "42px", width: "auto" }}
-              />
+              <div className="nav-brand-logo-wrap">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/pnplegal-logo-dark.png"
+                  alt="P&P Legal Consultants"
+                  className="nav-brand-logo"
+                  style={{ height: "42px", width: "auto" }}
+                />
+              </div>
               <div className="nav-brand-text">
                 <span className="nav-brand-title footer-brand-title">
                   P&P <span>LEGAL</span>
@@ -57,7 +58,7 @@ export default function Footer() {
               <li><Link href="/about">About P&amp;P Legal</Link></li>
               <li><Link href="/services">Our Legal Services</Link></li>
               <li><Link href="/#counsel">Advocate Prashant Jha</Link></li>
-              <li><Link href="/blog">Legal Insights &amp; Articles</Link></li>
+              <li><Link href="/blog">Blogs &amp; Articles</Link></li>
               <li><Link href="/contact">Chambers Office &amp; Contact</Link></li>
               <li><Link href="/services#drafting">Legal Drafting &amp; Notices</Link></li>
               <li><Link href="/services#traffic">Traffic Challan Matters</Link></li>
@@ -73,10 +74,6 @@ export default function Footer() {
                 D-20, Nawada Housing Complex, Vipin Garden, Dwarka Mor, New Delhi, Delhi, India.
               </li>
               <li style={{ marginTop: "0.5rem" }}>
-                <strong>Direct Chambers:</strong><br />
-                <a href="tel:+918409949411">+91-8409949411</a>
-              </li>
-              <li>
                 <strong>General Enquiries:</strong><br />
                 <a href="tel:+919472568264">+91-9472568264</a>
               </li>

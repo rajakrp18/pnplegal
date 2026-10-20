@@ -769,6 +769,47 @@ button, input, select, textarea {
   gap: 0.75rem;
 }
 
+.nav-brand-logo-wrap {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent !important;
+  flex-shrink: 0;
+  line-height: 0;
+}
+
+.nav-brand-logo {
+  height: 44px;
+  width: auto;
+  background: transparent !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  display: block;
+  object-fit: contain;
+  transition: opacity var(--transition-fast);
+}
+
+/* Default / Dark Theme: Show luminous Champagne Gold emblem on dark transparent navbar */
+:root:not([data-theme="light"]) .logo-light-theme,
+[data-theme="dark"] .logo-light-theme {
+  display: none !important;
+}
+
+:root:not([data-theme="light"]) .logo-dark-theme,
+[data-theme="dark"] .logo-dark-theme {
+  display: block !important;
+}
+
+/* Light Theme: Show authentic Deep Navy emblem on cream transparent navbar */
+[data-theme="light"] .logo-dark-theme {
+  display: none !important;
+}
+
+[data-theme="light"] .logo-light-theme {
+  display: block !important;
+}
+
 .nav-brand-text {
   display: flex;
   flex-direction: column;
@@ -2462,21 +2503,36 @@ button, input, select, textarea {
     height: 38px;
   }
   .navbar {
-    padding: 0.45rem 0.75rem;
+    padding: 0.45rem 0.75rem 0.45rem 0.95rem;
+    min-height: 52px;
+    align-items: center;
   }
   .nav-brand {
-    gap: 0.5rem;
+    gap: 0.55rem;
+    align-items: center;
+  }
+  .nav-brand-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
   .nav-brand-title {
-    font-size: 1.05rem;
+    font-size: 1rem;
     letter-spacing: 1.2px;
+    line-height: 1.1;
   }
   .nav-brand-sub {
-    font-size: 0.52rem;
-    letter-spacing: 1.5px;
+    display: block !important;
+    font-size: 0.5rem;
+    letter-spacing: 1.8px;
+    margin-top: 1px;
+    line-height: 1;
+    white-space: nowrap;
   }
+  .nav-brand-logo,
   .nav-brand img {
-    height: 34px !important;
+    height: 38px !important;
+    width: auto !important;
   }
   .nav-wrapper {
     top: 10px;
@@ -2742,12 +2798,42 @@ button, input, select, textarea {
 /* ── Small Mobile ── */
 @media (max-width: 480px) {
   /* Navbar */
+  .navbar {
+    padding: 0.4rem 0.65rem 0.4rem 0.8rem;
+    min-height: 48px;
+  }
+  .nav-brand {
+    gap: 0.45rem;
+  }
   .nav-brand-title {
-    font-size: 1rem;
-    letter-spacing: 1.5px;
+    font-size: 0.92rem;
+    letter-spacing: 1px;
+    line-height: 1.1;
   }
   .nav-brand-sub {
-    display: none;
+    display: block !important;
+    font-size: 0.46rem;
+    letter-spacing: 1.4px;
+    margin-top: 1px;
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0.85;
+  }
+  .nav-brand-logo,
+  .nav-brand img {
+    height: 34px !important;
+    width: auto !important;
+  }
+  .nav-actions {
+    gap: 0.35rem;
+  }
+  .nav-actions .btn-theme-toggle {
+    width: 34px;
+    height: 34px;
+  }
+  .nav-toggle {
+    width: 36px;
+    height: 36px;
   }
 
   /* Hero */

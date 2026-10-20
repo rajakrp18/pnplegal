@@ -192,7 +192,7 @@ export default function BlogPage() {
         <div className="inner-hero-bg">
           <Image
             src="/supreme-wide.jpg"
-            alt="Legal Insights & Knowledge"
+            alt="Blogs & Legal Insights"
             fill
             sizes="100vw"
             priority
@@ -202,7 +202,7 @@ export default function BlogPage() {
         </div>
 
         <div className="container inner-hero-content">
-          <span className="subtitle-eyebrow">LEGAL INSIGHTS &amp; ANALYSIS</span>
+          <span className="subtitle-eyebrow">BLOGS &amp; LEGAL INSIGHTS</span>
           <h1 className="inner-hero-title">
             Informed Legal Analysis.<br />
             <span>Reliable Practical Guidance.</span>

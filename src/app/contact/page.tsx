@@ -111,16 +111,6 @@ export default function ContactPage() {
                 <div className="contact-channel">
                   <span className="channel-icon">&#9742;</span>
                   <div className="channel-details">
-                    <h4>Direct Chambers Phone</h4>
-                    <a href="tel:+918409949411" style={{ fontSize: "1.1rem", fontWeight: 700 }}>
-                      +91-8409949411
-                    </a>
-                  </div>
-                </div>
-
-                <div className="contact-channel">
-                  <span className="channel-icon">&#9742;</span>
-                  <div className="channel-details">
                     <h4>General Enquiries</h4>
                     <a href="tel:+919472568264" style={{ fontSize: "1.05rem" }}>
                       +91-9472568264
@@ -230,7 +220,7 @@ export default function ContactPage() {
                         required
                         value={formData.phone}
                         onChange={handleInputChange}
-                        placeholder="+91-8409949411"
+                        placeholder="+91 98765 XXXXX"
                         className="form-input"
                       />
                     </div>

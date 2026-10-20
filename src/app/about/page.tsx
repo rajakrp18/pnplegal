@@ -300,8 +300,7 @@ export default function AboutPage() {
                 <h4>Chambers Address</h4>
                 <p>D-20, Nawada Housing Complex, Vipin Garden, Dwarka Mor, New Delhi, Delhi, India.</p>
                 <div className="presence-phones">
-                  <span><strong>Direct:</strong> <a href="tel:+918409949411">+91-8409949411</a></span>
-                  <span><strong>General:</strong> <a href="tel:+919472568264">+91-9472568264</a></span>
+                  <span><strong>General Enquiries:</strong> <a href="tel:+919472568264">+91-9472568264</a></span>
                 </div>
               </div>
             </div>

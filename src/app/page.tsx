@@ -218,7 +218,6 @@ export default function HomePage() {
                     <span className="advocate-name-tag">Prashant Jha</span>
                     <span className="advocate-title-tag">Advocate, Supreme Court</span>
                   </div>
-                  <span className="advocate-sig-script">P. Jha</span>
                 </div>
               </div>
             </div>
@@ -588,7 +587,7 @@ export default function HomePage() {
         <div className="container">
           <div className="section-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: "1.5rem", marginBottom: "3rem" }}>
             <div>
-              <span className="subtitle-eyebrow">LEGAL INSIGHTS &amp; ANALYSIS</span>
+              <span className="subtitle-eyebrow">BLOGS &amp; LEGAL INSIGHTS</span>
               <h2 className="section-heading">Knowledge from Practice</h2>
               <p style={{ color: "var(--text-muted)", maxWidth: "560px", fontSize: "1rem", marginTop: "0.5rem" }}>
                 Informative articles on cybercrime, banking freezes, commercial contracts, bail jurisprudence, and Indian civil procedure.
@@ -649,13 +648,6 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="contact-channel">
-                  <span className="channel-icon">&#9742;</span>
-                  <div className="channel-details">
-                    <h4>Direct Chambers Phone</h4>
-                    <a href="tel:+918409949411" style={{ fontSize: "1.05rem", fontWeight: 700 }}>+91-8409949411</a>
-                  </div>
-                </div>
 
                 <div className="contact-channel">
                   <span className="channel-icon">&#9742;</span>

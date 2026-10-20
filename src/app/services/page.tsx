@@ -347,7 +347,7 @@ export default function ServicesPage() {
               </p>
               <div className="chambers-quick-contact">
                 <p><strong>Chambers Office:</strong> D-20, Nawada Housing Complex, Vipin Garden, Dwarka Mor, New Delhi, Delhi, India.</p>
-                <p><strong>Direct Chambers Phone:</strong> <a href="tel:+918409949411">+91-8409949411</a> &nbsp;|&nbsp; <strong>General:</strong> <a href="tel:+919472568264">+91-9472568264</a></p>
+                <p><strong>General Enquiries:</strong> <a href="tel:+919472568264">+91-9472568264</a></p>
               </div>
             </div>
             <div className="presence-banner-action">

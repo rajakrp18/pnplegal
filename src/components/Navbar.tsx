@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -92,7 +91,7 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
     { label: "Practice Areas", href: "/practice-areas" },
     { label: "Our Services", href: "/services" },
     { label: "The Counsel", href: "/#counsel" },
-    { label: "Legal Insights", href: "/blog" },
+    { label: "Blogs", href: "/blog" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -117,14 +116,20 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
       <header className="nav-wrapper">
         <nav className="navbar" aria-label="Main Navigation">
           <Link href="/" className="nav-brand" onClick={() => setActiveSection("")}>
-            <Image
-              src="/pnplegallogo.png"
-              alt="P&P Legal Consultants Logo"
-              width={60}
-              height={60}
-              style={{ objectFit: "contain", height: "46px", width: "auto" }}
-              priority
-            />
+            <div className="nav-brand-logo-wrap">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/pnplegal-logo-light.png"
+                alt="P&P Legal Consultants"
+                className="nav-brand-logo logo-light-theme"
+              />
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/pnplegal-logo-dark.png"
+                alt="P&P Legal Consultants"
+                className="nav-brand-logo logo-dark-theme"
+              />
+            </div>
             <div className="nav-brand-text">
               <span className="nav-brand-title">
                 P&P <span>LEGAL</span>
@@ -247,13 +252,22 @@ export default function Navbar({ onOpenConsultation }: NavbarProps) {
         </button>
 
         <div className="mobile-drawer-brand">
-          <Image
-            src="/pnplegallogo.png"
-            alt="P&P Legal Consultants"
-            width={48}
-            height={48}
-            style={{ objectFit: "contain", height: "40px", width: "auto" }}
-          />
+          <div className="nav-brand-logo-wrap">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/pnplegal-logo-light.png"
+              alt="P&P Legal Consultants"
+              className="nav-brand-logo logo-light-theme"
+              style={{ height: "38px", width: "auto" }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/pnplegal-logo-dark.png"
+              alt="P&P Legal Consultants"
+              className="nav-brand-logo logo-dark-theme"
+              style={{ height: "38px", width: "auto" }}
+            />
+          </div>
           <div style={{ marginLeft: "10px" }}>
             <span style={{ fontWeight: 700, letterSpacing: "1px", color: "var(--champagne)" }}>
               P&P LEGAL

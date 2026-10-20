@@ -150,14 +150,48 @@ export async function POST(req: NextRequest) {
       localSaved: false,
     };
 
-    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || "info@pnplegalconsultants.com";
+    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || "pnplegalconsultants@gmail.com";
     const emailSubject = `⚖️ New Legal Consultation Request: ${newInquiry.fullName} [${newInquiry.practiceArea}]`;
     const emailHtml = generateConsultationEmailHtml(newInquiry);
 
     // ─────────────────────────────────────────────────────────────
-    // 1. DIRECT EMAIL: Via Resend API (Recommended for Vercel)
+    // 1. DIRECT EMAIL: Via SMTP / Gmail App Password
     // ─────────────────────────────────────────────────────────────
-    if (process.env.RESEND_API_KEY) {
+    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+      try {
+        const host = process.env.SMTP_HOST || "smtp.gmail.com";
+        const port = Number(process.env.SMTP_PORT) || 465;
+        const secure = port === 465;
+
+        const transporter = nodemailer.createTransport({
+          host,
+          port,
+          secure,
+          auth: {
+            user: process.env.SMTP_USER,
+            pass: process.env.SMTP_PASS.replace(/\s+/g, ""),
+          },
+        });
+
+        await transporter.sendMail({
+          from: `"P&P Legal Consultants" <${process.env.SMTP_USER}>`,
+          to: receiverEmail,
+          replyTo: newInquiry.email,
+          subject: emailSubject,
+          html: emailHtml,
+        });
+
+        deliveryReport.emailSent = true;
+        console.log("Inquiry email dispatched successfully via Gmail SMTP to:", receiverEmail);
+      } catch (smtpErr) {
+        console.error("SMTP Nodemailer error:", smtpErr);
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // 2. DIRECT EMAIL: Via Resend API (Alternative / Vercel Edge)
+    // ─────────────────────────────────────────────────────────────
+    if (!deliveryReport.emailSent && process.env.RESEND_API_KEY) {
       try {
         const resendRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
@@ -183,40 +217,6 @@ export async function POST(req: NextRequest) {
         }
       } catch (resendErr) {
         console.error("Resend API error:", resendErr);
-      }
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // 2. DIRECT EMAIL: Via SMTP / Nodemailer (Gmail, Hostinger, Zoho)
-    // ─────────────────────────────────────────────────────────────
-    if (!deliveryReport.emailSent && process.env.SMTP_USER && process.env.SMTP_PASS) {
-      try {
-        const host = process.env.SMTP_HOST || "smtp.gmail.com";
-        const port = Number(process.env.SMTP_PORT) || 465;
-        const secure = port === 465;
-
-        const transporter = nodemailer.createTransport({
-          host,
-          port,
-          secure,
-          auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS,
-          },
-        });
-
-        await transporter.sendMail({
-          from: `"P&P Legal Consultants" <${process.env.SMTP_USER}>`,
-          to: receiverEmail,
-          replyTo: newInquiry.email,
-          subject: emailSubject,
-          html: emailHtml,
-        });
-
-        deliveryReport.emailSent = true;
-        console.log("Inquiry email dispatched successfully via SMTP to:", receiverEmail);
-      } catch (smtpErr) {
-        console.error("SMTP Nodemailer error:", smtpErr);
       }
     }
 
