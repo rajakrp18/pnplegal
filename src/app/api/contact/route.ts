@@ -150,32 +150,34 @@ export async function POST(req: NextRequest) {
       localSaved: false,
     };
 
-    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || process.env.SMTP_USER || "pnplegalconsultants@gmail.com";
+    const receiverEmail = process.env.CONTACT_RECEIVER_EMAIL || "pnplegalconsultants@gmail.com";
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS ? process.env.SMTP_PASS.replace(/\s+/g, "") : undefined;
+    const resendKey = process.env.RESEND_API_KEY;
+
     const emailSubject = `⚖️ New Legal Consultation Request: ${newInquiry.fullName} [${newInquiry.practiceArea}]`;
     const emailHtml = generateConsultationEmailHtml(newInquiry);
 
     // ─────────────────────────────────────────────────────────────
     // 1. DIRECT EMAIL: Via SMTP / Gmail App Password
     // ─────────────────────────────────────────────────────────────
-    if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+    if (smtpUser && smtpPass) {
       try {
-        const host = process.env.SMTP_HOST || "smtp.gmail.com";
-        const port = Number(process.env.SMTP_PORT) || 465;
-        const secure = port === 465;
-
         const transporter = nodemailer.createTransport({
-          host,
-          port,
-          secure,
+          service: "gmail",
           auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS.replace(/\s+/g, ""),
+            user: smtpUser,
+            pass: smtpPass,
           },
+          connectionTimeout: 10000,
+          greetingTimeout: 10000,
+          socketTimeout: 15000,
         });
 
         await transporter.sendMail({
-          from: `"P&P Legal Consultants" <${process.env.SMTP_USER}>`,
+          from: `"P&P Legal Consultants" <${smtpUser}>`,
           to: receiverEmail,
+          cc: receiverEmail !== "rajpoddar8907@gmail.com" ? "rajpoddar8907@gmail.com" : undefined,
           replyTo: newInquiry.email,
           subject: emailSubject,
           html: emailHtml,
@@ -191,12 +193,12 @@ export async function POST(req: NextRequest) {
     // ─────────────────────────────────────────────────────────────
     // 2. DIRECT EMAIL: Via Resend API (Alternative / Vercel Edge)
     // ─────────────────────────────────────────────────────────────
-    if (!deliveryReport.emailSent && process.env.RESEND_API_KEY) {
+    if (!deliveryReport.emailSent && resendKey) {
       try {
-        const resendRes = await fetch("https://api.resend.com/emails", {
+        let resendRes = await fetch("https://api.resend.com/emails", {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+            Authorization: `Bearer ${resendKey}`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -208,9 +210,28 @@ export async function POST(req: NextRequest) {
           }),
         });
 
+        // If Resend returns 403 (unverified domain in sandbox), retry to verified account owner
+        if (!resendRes.ok && resendRes.status === 403) {
+          console.warn("Resend sandbox restriction: retrying to rajpoddar8907@gmail.com...");
+          resendRes = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${resendKey}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              from: "P&P Legal Inquiries <onboarding@resend.dev>",
+              to: ["rajpoddar8907@gmail.com"],
+              reply_to: newInquiry.email,
+              subject: emailSubject,
+              html: emailHtml,
+            }),
+          });
+        }
+
         if (resendRes.ok) {
           deliveryReport.emailSent = true;
-          console.log("Inquiry email dispatched successfully via Resend to:", receiverEmail);
+          console.log("Inquiry email dispatched successfully via Resend.");
         } else {
           const errData = await resendRes.text();
           console.warn("Resend email delivery notice:", errData);
