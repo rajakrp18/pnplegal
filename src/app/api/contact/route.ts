@@ -159,9 +159,41 @@ export async function POST(req: NextRequest) {
     const emailHtml = generateConsultationEmailHtml(newInquiry);
 
     // ─────────────────────────────────────────────────────────────
-    // 1. DIRECT EMAIL: Via SMTP / Gmail App Password
+    // 1. DIRECT EMAIL: Via Resend API (Recommended for Vercel)
     // ─────────────────────────────────────────────────────────────
-    if (smtpUser && smtpPass) {
+    if (resendKey) {
+      try {
+        const resendRes = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${resendKey}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            from: process.env.EMAIL_FROM || "P&P Legal Inquiries <onboarding@resend.dev>",
+            to: [receiverEmail],
+            reply_to: newInquiry.email,
+            subject: emailSubject,
+            html: emailHtml,
+          }),
+        });
+
+        if (resendRes.ok) {
+          deliveryReport.emailSent = true;
+          console.log("Inquiry email dispatched successfully via Resend to:", receiverEmail);
+        } else {
+          const errData = await resendRes.text();
+          console.warn("Resend email delivery notice:", errData);
+        }
+      } catch (resendErr) {
+        console.error("Resend API error:", resendErr);
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // 2. DIRECT EMAIL: Via Gmail SMTP (Fallback or Primary)
+    // ─────────────────────────────────────────────────────────────
+    if (!deliveryReport.emailSent && smtpUser && smtpPass) {
       try {
         const transporter = nodemailer.createTransport({
           service: "gmail",
@@ -187,57 +219,6 @@ export async function POST(req: NextRequest) {
         console.log("Inquiry email dispatched successfully via Gmail SMTP to:", receiverEmail);
       } catch (smtpErr) {
         console.error("SMTP Nodemailer error:", smtpErr);
-      }
-    }
-
-    // ─────────────────────────────────────────────────────────────
-    // 2. DIRECT EMAIL: Via Resend API (Alternative / Vercel Edge)
-    // ─────────────────────────────────────────────────────────────
-    if (!deliveryReport.emailSent && resendKey) {
-      try {
-        let resendRes = await fetch("https://api.resend.com/emails", {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${resendKey}`,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            from: process.env.EMAIL_FROM || "P&P Legal Inquiries <onboarding@resend.dev>",
-            to: [receiverEmail],
-            reply_to: newInquiry.email,
-            subject: emailSubject,
-            html: emailHtml,
-          }),
-        });
-
-        // If Resend returns 403 (unverified domain in sandbox), retry to verified account owner
-        if (!resendRes.ok && resendRes.status === 403) {
-          console.warn("Resend sandbox restriction: retrying to rajpoddar8907@gmail.com...");
-          resendRes = await fetch("https://api.resend.com/emails", {
-            method: "POST",
-            headers: {
-              Authorization: `Bearer ${resendKey}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              from: "P&P Legal Inquiries <onboarding@resend.dev>",
-              to: ["rajpoddar8907@gmail.com"],
-              reply_to: newInquiry.email,
-              subject: emailSubject,
-              html: emailHtml,
-            }),
-          });
-        }
-
-        if (resendRes.ok) {
-          deliveryReport.emailSent = true;
-          console.log("Inquiry email dispatched successfully via Resend.");
-        } else {
-          const errData = await resendRes.text();
-          console.warn("Resend email delivery notice:", errData);
-        }
-      } catch (resendErr) {
-        console.error("Resend API error:", resendErr);
       }
     }
 
